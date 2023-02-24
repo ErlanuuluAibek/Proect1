@@ -11,20 +11,22 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        try {
+            User user = new User(1, "Aibek", Gender.MAlE);
+            User user1 = new User(2, "Malika", Gender.FEMALE);
+            User user2 = new User(3, "Asan", Gender.MAlE);
 
-        User user=new User(1,"Aibek", Gender.MAlE);
-        User user1=new User(2,"Malika", Gender.FEMALE);
-        User user2=new User(3,"Asan", Gender.MAlE);
-        List<User> userList=new LinkedList<>();
-        userList.add(user);
-        userList.add(user1);
-        userList.add(user2);
-        UserDao userDao=new UserDao(userList);
-        UserService userService=new UserServiceImpl(userDao);
-        userService.searchById(1);
-        userService.printAllUsers(userList);
-        userService.removalById(2);
-        userService.printAllUsers(userList);
+            UserService userService = new UserServiceImpl();
+            userService.addAUser(user);
+            userService.addAUser(user1);
+            userService.addAUser(user2);
+            userService.searchById(1);
+            userService.printAllUsers();
+            System.out.println(userService.removalById(2));
+            userService.printAllUsers();
+        }catch (RuntimeException runtimeException){
+            System.out.println(runtimeException.getMessage());
+        }
 
     }
 }

@@ -9,22 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
+    private UserDao userDao=new UserDao();
 
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
-    public UserServiceImpl() {
-    }
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public void addAUser(User user) {
@@ -32,23 +20,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void searchById(int id) {
+    public User searchById(int id) {
         ArrayList<Integer>integers=new ArrayList<>();
         for (User u:userDao.getUsers()) {
             integers.add(u.getId());
         }
         for (User u : userDao.getUsers()) {
             if (u.getId() == id) {
-                System.out.println(u);
+               return u;
             }else if(!integers.contains(id)){
                 throw new RuntimeException("Нет такого ID!");
             }
         }
-
+        return null;
     }
 
     @Override
-    public void removalById(int id) {
+    public String removalById(int id) {
         ArrayList<Integer>integers=new ArrayList<>();
         for (User u:userDao.getUsers()) {
             integers.add(u.getId());
@@ -56,15 +44,17 @@ public class UserServiceImpl implements UserService {
         for (User u : userDao.getUsers()) {
             if (u.getId() == id) {
                 userDao.getUsers().remove(u);
+                return "Successfully deleted"+u;
             }else if(!integers.contains(id)){
                 throw new MyException("Нет такого ID!");
             }
         }
+        return null;
     }
 
     @Override
-    public void printAllUsers(List<User> users) {
-        for (User user : users) {
+    public void printAllUsers() {
+        for (User user : userDao.getUsers()) {
             System.out.println(user);
         }
     }
