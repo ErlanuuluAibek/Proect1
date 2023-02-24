@@ -9,9 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao=new UserDao();
-
-
+    private UserDao userDao = new UserDao();
 
 
     @Override
@@ -21,35 +19,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User searchById(int id) {
-        ArrayList<Integer>integers=new ArrayList<>();
-        for (User u:userDao.getUsers()) {
-            integers.add(u.getId());
-        }
-        for (User u : userDao.getUsers()) {
-            if (u.getId() == id) {
-               return u;
-            }else if(!integers.contains(id)){
-                throw new RuntimeException("Нет такого ID!");
+        for (User user : userDao.getUsers()) {
+            if (user.getId() == id) {
+                return user;
             }
         }
-        return null;
+        throw new MyException("Not found user with id " + id);
     }
+
+
 
     @Override
     public String removalById(int id) {
-        ArrayList<Integer>integers=new ArrayList<>();
-        for (User u:userDao.getUsers()) {
-            integers.add(u.getId());
-        }
         for (User u : userDao.getUsers()) {
             if (u.getId() == id) {
                 userDao.getUsers().remove(u);
-                return "Successfully deleted"+u;
-            }else if(!integers.contains(id)){
-                throw new MyException("Нет такого ID!");
+                return "Successfully deleted" + u;
             }
         }
-        return null;
+        throw new MyException("Not found user with id " + id);
     }
 
     @Override
