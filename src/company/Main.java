@@ -15,12 +15,11 @@ public class Main {
             User user = new User(1, "Aibek", Gender.MAlE);
             User user1 = new User(2, "Malika", Gender.FEMALE);
             User user2 = new User(3, "Asan", Gender.MAlE);
-
             UserService userService = new UserServiceImpl();
             userService.addAUser(user);
             userService.addAUser(user1);
             userService.addAUser(user2);
-            userService.searchById(1);
+            userService.searchById(3);
             userService.printAllUsers();
             System.out.println(userService.removalById(2));
             userService.printAllUsers();

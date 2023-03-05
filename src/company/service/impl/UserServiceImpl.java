@@ -19,32 +19,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User searchById(int id) {
-        for (User user : userDao.getUsers()) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        throw new MyException("Not found user with id " + id);
+        User user = userDao.getUsers().stream().filter(x -> x.getId() == id).findFirst().
+                orElseThrow(() -> new MyException("Not found user with id " + id));
+        return user;
     }
-
 
 
     @Override
     public String removalById(int id) {
-        for (User u : userDao.getUsers()) {
-            if (u.getId() == id) {
-                userDao.getUsers().remove(u);
-                return "Successfully deleted" + u;
-            }
-        }
-        throw new MyException("Not found user with id " + id);
+        User user = userDao.getUsers().stream().filter(x -> x.getId() == id).findFirst().
+                orElseThrow(() -> new MyException("Not found user with id " + id));
+        userDao.getUsers().remove(user);
+        return "Successfully deleted: " + user;
     }
 
     @Override
     public void printAllUsers() {
-        for (User user : userDao.getUsers()) {
-            System.out.println(user);
-        }
+        userDao.getUsers().forEach(System.out::println);
     }
 
     @Override
